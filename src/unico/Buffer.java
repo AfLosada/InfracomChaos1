@@ -6,8 +6,8 @@ public class Buffer{
 	
 	private int tamano;
 	private ArrayList<Mensaje> mensajes;
-	private int numClientes;
-	private int numServi;
+	public int numClientes;
+	public int numServi;
 	
 	public Buffer(int pTamano, int pNumClientes, int pNumServi)
 	{

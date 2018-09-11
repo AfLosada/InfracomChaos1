@@ -13,6 +13,7 @@ public class Servidor extends Thread
 	
 	public void run()
 	{
+		while(buff.numClientes > 0)
 		mensaje = buff.retirar();
 	}
 }
