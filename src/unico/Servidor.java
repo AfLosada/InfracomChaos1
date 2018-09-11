@@ -5,9 +5,9 @@ public class Servidor extends Thread
 	private Mensaje mensaje;
 	private static Buffer buff;
 	
-	public Servidor( Mensaje pMen, Buffer pBuff)
+	public Servidor(Buffer pBuff)
 	{
-		mensaje = pMen;
+		mensaje = null;
 		buff = pBuff;
 	}
 	
@@ -15,5 +15,12 @@ public class Servidor extends Thread
 	{
 		while(buff.numClientes > 0)
 		mensaje = buff.retirar();
+		
+		procesarMensaje(mensaje);
+	}
+	
+	public void procesarMensaje(Mensaje mensaje)
+	{
+		mensaje.setMensaje(mensaje.getMensaje()+1);
 	}
 }
