@@ -7,12 +7,14 @@ public class Buffer{
 	private int tamano;
 	private ArrayList<Mensaje> mensajes;
 	private int numClientes;
+	private int numServi;
 	
-	public Buffer(int pTamano, int pNumClientes)
+	public Buffer(int pTamano, int pNumClientes, int pNumServi)
 	{
 		tamano = pTamano;
 		mensajes = new ArrayList<Mensaje>();
 		numClientes = pNumClientes;
+		numServi = pNumServi;
 	}
 
 	public synchronized void almacenar(Mensaje mensaje) {
@@ -20,10 +22,8 @@ public class Buffer{
 		tamano--;
 		while(tamano < 0)
 		{
-			System.out.println("El cliente con id:  " + this.getId() + " intentó almacenar un mensaje: " + mensaje.getMensaje());
 			yield();
 		}
-		System.out.println("El cliente con id:  " + this.getId() + " pudo almacenar un mensaje: " + mensaje.getMensaje());
 		mensajes.add(mensaje);
 		try {
 			wait();
@@ -31,23 +31,19 @@ public class Buffer{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("El cliente con id:  " + this.getId() + " fue despertado por el servidor");
 	}
 	
 	public synchronized Mensaje retirar()
 	{
 		while(tamano > 0)
 		{
-			System.out.println("El servidor con id:  " + this.getId() + " intentó retirar un mensaje");
 			yield();
 		}
 		int aleatorio = ((int) Math.random() * mensajes.size() );
 		Mensaje rta = mensajes.get(aleatorio);
 		mensajes.remove( aleatorio );
-		System.out.println("El servidor con id:  " + this.getId() + " retiró un mensaje con id: " + rta.getMensaje());
 		tamano++;
 		notify();
-		System.out.println("El servidor con id:  " + this.getId() + " despertó a algún cliente");
 		return rta;
 	}
 	
