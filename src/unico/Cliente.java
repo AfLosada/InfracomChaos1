@@ -38,17 +38,15 @@ public class Cliente extends Thread {
 		{
 			buff.almacenar(mensajes.get(i));
 		}
+		buff.numClientes--;
 		
 	}
 	
-	
-	public static void main(String[] args) {
-		
-		Cliente cliente = new Cliente(null,4);
-		System.out.println(cliente.mensajes.size());
-		System.out.println(cliente.mensajes.get(0).getMensaje());
-		System.out.println(cliente.mensajes.get(1).getMensaje());
-		System.out.println(cliente.mensajes.get(2).getMensaje());
-
+	public void almacenar(Mensaje mensaje)
+	{
+		while(!buff.almacenar())
+		{
+			yield();
+		}
 	}
 }

@@ -17,19 +17,16 @@ public class Buffer{
 		numServi = pNumServi;
 	}
 
-	public synchronized void almacenar(Mensaje mensaje) {
+	public boolean almacenar(Mensaje mensaje) {
 		// TODO Auto-generated method stub
-		tamano--;
-		while(tamano < 0)
+		if(--tamano < 0)
 		{
-			yield();
+			return false;
 		}
-		mensajes.add(mensaje);
-		try {
-			wait();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		else
+		{
+			mensajes.add(mensaje);
+			return true;
 		}
 	}
 	
@@ -37,9 +34,9 @@ public class Buffer{
 	{
 		while(tamano > 0)
 		{
-			yield();
+			
 		}
-		int aleatorio = ((int) Math.random() * mensajes.size() );
+		int aleatorio = ( (int) Math.random() * mensajes.size() );
 		Mensaje rta = mensajes.get(aleatorio);
 		mensajes.remove( aleatorio );
 		tamano++;
