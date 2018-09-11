@@ -5,9 +5,9 @@ public class Mensaje {
 	private int mensaje;
 	
 	
-	public Mensaje()
+	public Mensaje(int men)
 	{
-		int men = (int) (Math.random()*10);
+		//int men = (int) (Math.random()*10);
 		mensaje = men;
 	}
 	
