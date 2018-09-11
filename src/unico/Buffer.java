@@ -20,8 +20,10 @@ public class Buffer extends Thread{
 		tamano--;
 		while(tamano < 0)
 		{
+			System.out.println("El cliente con id:  " + this.getId() + " intentó almacenar un mensaje: " + mensaje.getMensaje());
 			yield();
 		}
+		System.out.println("El cliente con id:  " + this.getId() + " pudo almacenar un mensaje: " + mensaje.getMensaje());
 		mensajes.add(mensaje);
 		try {
 			wait();
@@ -29,17 +31,39 @@ public class Buffer extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("El cliente con id:  " + this.getId() + " fue despertado por el servidor");
 	}
 	
-	public synchronized void retirar()
+	public synchronized Mensaje retirar()
 	{
 		while(tamano > 0)
 		{
+			System.out.println("El servidor con id:  " + this.getId() + " intentó retirar un mensaje");
 			yield();
 		}
-		mensajes.remove( ((int) Math.random() * mensajes.size() ) );
+		int aleatorio = ((int) Math.random() * mensajes.size() );
+		Mensaje rta = mensajes.get(aleatorio);
+		mensajes.remove( aleatorio );
+		System.out.println("El servidor con id:  " + this.getId() + " retiró un mensaje con id: " + rta.getMensaje());
 		tamano++;
 		notify();
+		System.out.println("El servidor con id:  " + this.getId() + " despertó a algún cliente");
+		return rta;
 	}
+	
+	public static void main(String[] args) {
+		
+		Buffer buffer = new Buffer(5, 2);
+		for( int i = 0; i < buffer.numClientes ; i++)
+		{
+			Cliente temp = new Cliente(new Mensaje(i), buffer);
+			(new Thread(temp)).start();
+		}
+		
+		
+		
+	}
+	
+	
 
 }
