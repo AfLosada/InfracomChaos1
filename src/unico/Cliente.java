@@ -4,8 +4,8 @@ public class Cliente extends Thread {
 	private Mensaje mensaje;
 	private static Buffer buff;
 
-	public Cliente(Mensaje pMensaje, Buffer pBuff) {
-		mensaje = pMensaje;
+	public Cliente( Buffer pBuff) {
+		mensaje = new Mensaje();
 		buff = pBuff;
 	}
 
