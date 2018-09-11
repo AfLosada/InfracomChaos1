@@ -2,7 +2,7 @@ package unico;
 
 import java.util.ArrayList;
 
-public class Buffer extends Thread{
+public class Buffer{
 	
 	private int tamano;
 	private ArrayList<Mensaje> mensajes;
