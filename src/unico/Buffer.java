@@ -40,20 +40,6 @@ public class Buffer{
 		
 	}
 	
-	public synchronized Mensaje retirar()
-	{
-		while(tamano > 0)
-		{
-			
-		}
-		int aleatorio = ( (int) Math.random() * mensajes.size() );
-		Mensaje rta = mensajes.get(aleatorio);
-		mensajes.remove( aleatorio );
-		tamano++;
-		notify();
-		return rta;
-	}
-	
 
 
 	
