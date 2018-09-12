@@ -74,7 +74,7 @@ public class Buffer{
 		{
 			linea = bf.readLine();
 			temp = Integer.parseInt(linea);
-			Cliente nuevo = new Cliente(buffer, 5 );
+			Cliente nuevo = new Cliente(buffer, temp );
 			System.out.println("se creo el cliente "+(i+1) + " con "+ nuevo.getMensajes().size()+" mensajes");
 			(new Thread(nuevo)).start();
 			
