@@ -1,5 +1,11 @@
 package unico;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Buffer{
@@ -21,7 +27,7 @@ public class Buffer{
 	public synchronized void almacenar(Mensaje mensaje)
 	{
 			mensajes.add(mensaje);
-			tamano = tamano -1;
+			tamano = tamano - 1;
 			
 	}
 
@@ -52,15 +58,25 @@ public class Buffer{
 
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
-		Buffer buffer = new Buffer(5, 8, 2);
+		File archivo = new File("datos.txt");
+		BufferedReader bf = new BufferedReader(new FileReader(archivo));
+		String linea = bf.readLine();
+		String[] chars = linea.split(" ");
+		int numCli = Integer.parseInt(chars[0]);
+		int numSer = Integer.parseInt(chars[1]);
+		int tamano = Integer.parseInt(chars[2]);
+		Buffer buffer = new Buffer(tamano, numCli, numSer);
 		System.out.println("Se creo el buffer con tamano " + buffer.tamano+" , num Clientes de "+ buffer.numClientes+ " y con " + buffer.numServidores+" servidores");
-		for( int i = 0; i < buffer.numClientes ; i++)
+		int temp = 0;
+		for (int i = 0; i < buffer.numClientes; i++)
 		{
-			Cliente temp = new Cliente(buffer, 5 );
-			System.out.println("se creo el cliente "+(i+1) + " con "+ temp.getMensajes().size()+" mensajes");
-			(new Thread(temp)).start();
+			linea = bf.readLine();
+			temp = Integer.parseInt(linea);
+			Cliente nuevo = new Cliente(buffer, 5 );
+			System.out.println("se creo el cliente "+(i+1) + " con "+ nuevo.getMensajes().size()+" mensajes");
+			(new Thread(nuevo)).start();
 			
 			System.out.println("el tamano del buffer es " + buffer.tamano);
 		}
