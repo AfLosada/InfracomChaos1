@@ -6,8 +6,9 @@ public class Buffer{
 	
 	public int tamano;
 	public ArrayList<Mensaje> mensajes;
-	public int numClientes;
+	public static int numClientes;
 	public int numServidores;
+	public static int finalizacion; 
 	
 	public Buffer(int pTamano, int pNumClientes, int pnumServidores)
 	{
@@ -58,15 +59,25 @@ public class Buffer{
 		for( int i = 0; i < buffer.numClientes ; i++)
 		{
 			Cliente temp = new Cliente(buffer, 5 );
-			System.out.println("se creo el cliente "+i+ "con "+ temp.getMensajes().size()+" mensajes");
+			System.out.println("se creo el cliente "+(i+1) + " con "+ temp.getMensajes().size()+" mensajes");
 			(new Thread(temp)).start();
+			
+			System.out.println("el tamano del buffer es " + buffer.tamano);
 		}
 		for (int i = 0; i < buffer.numServidores; i++) {
 			Servidor serv = new Servidor(buffer);
+			System.out.println("se creo el servidor "+(i+1) );
+
 			(new Thread(serv)).start();
 		}
 		
+		while (numClientes != 0)
+				{
+			
+				}
 		
+		
+		System.out.println("Al final el numero de clientes es "+ buffer.numClientes);
 		
 	}
 }

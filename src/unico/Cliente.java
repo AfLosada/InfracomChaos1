@@ -38,11 +38,13 @@ public class Cliente extends Thread {
 		for (int i = 0; i< mensajes.size(); i++)
 		{	
 			Mensaje m = mensajes.get(i);
-			buff.almacenar(mensajes.get(i));
+			almacenar(mensajes.get(i));
+			System.out.println("El cliente almaceno el mensaje " + i);
 			
 		}
 		
-		 buff.numClientes= buff.numClientes -1;		
+		 buff.numClientes= buff.numClientes -1;	
+		 System.out.println("el numero de clientes es " +buff.numClientes); 
 	}
 	
 	public synchronized void  almacenar(Mensaje mensaje)
