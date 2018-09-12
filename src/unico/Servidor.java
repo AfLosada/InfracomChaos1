@@ -13,14 +13,28 @@ public class Servidor extends Thread
 	
 	public void run()
 	{
-		while(buff.numClientes > 0)
-		mensaje = buff.retirar();
+		while(buff.mensajes.length > 0 || buff.numClientes > 0 )
+		{
+			while(buff.mensajes.size() == 0)
+			{
+				yield();
+			}
+			if(buff.mensajes.size()> 0 )
+			{
+				mensaje = buff.pedir();
+				procesarMensaje(mensaje);
+			}						
+		}
 		
-		procesarMensaje(mensaje);
 	}
 	
 	public void procesarMensaje(Mensaje mensaje)
 	{
 		mensaje.setMensaje(mensaje.getMensaje()+1);
+		
+		synchronized(mensaje)
+		{
+			mensaje.notify();
+		}
 	}
 }

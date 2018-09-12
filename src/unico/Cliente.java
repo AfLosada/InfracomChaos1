@@ -1,16 +1,17 @@
-package unico;
 
+package unico;
 import java.util.ArrayList;
 
 public class Cliente extends Thread {
 	private ArrayList<Mensaje> mensajes;
 	private static Buffer buff;
+	
 
 	public Cliente( Buffer pBuff, int tamano) {
 
 		mensajes = new ArrayList<Mensaje>();
 		for (int i = 0; i < tamano; i++) {
-			mensajes.add(new Mensaje(i));
+			mensajes.add(new Mensaje(i,this));
 		}
 		buff = pBuff;
 	}
@@ -34,19 +35,35 @@ public class Cliente extends Thread {
 	@Override
 	public void run()
 	{
-		for (int i = 0; i < mensajes.size(); i++)
-		{
+		for (int i = 0; i< mensajes.size(); i++)
+		{	
+			Mensaje m = mensajes.get(i);
 			buff.almacenar(mensajes.get(i));
+			
 		}
-		buff.numClientes--;
 		
+		 buff.numClientes= buff.numClientes -1;		
 	}
 	
-	public void almacenar(Mensaje mensaje)
+	public synchronized void  almacenar(Mensaje mensaje)
 	{
-		while(!buff.almacenar())
+		while (buff.tamano <= 0)
 		{
 			yield();
 		}
+		buff.almacenar(mensaje);
+		synchronized(mensaje)
+		{
+			try {
+				
+				mensaje.wait();
+				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
 	}
 }
