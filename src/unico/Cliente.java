@@ -38,7 +38,7 @@ public class Cliente extends Thread {
 		for (int i = 0; i< mensajes.size(); i++)
 		{	
 			Mensaje m = mensajes.get(i);
-			almacenar(mensajes.get(i));
+			almacenar(m);
 			System.out.println("El cliente almaceno el mensaje " + i);
 			
 		}
@@ -64,8 +64,5 @@ public class Cliente extends Thread {
 				e.printStackTrace();
 			}
 		}
-		
-		
-		
 	}
 }

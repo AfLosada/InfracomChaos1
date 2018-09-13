@@ -35,12 +35,12 @@ public class Buffer{
 	{
 		Mensaje m = mensajes.get(0);
 		mensajes.remove(0);
-		tamano = tamano+ 1;
+		tamano = tamano + 1;
 		return m;
 		
 	}
 	
-
+	
 
 	
 	
